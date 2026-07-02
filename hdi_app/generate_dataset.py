@@ -14,10 +14,16 @@ e.g.:
     path = kagglehub.dataset_download("<dataset-owner>/<dataset-name>")
 """
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
 np.random.seed(42)
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+DATA_DIR.mkdir(exist_ok=True)
 
 N = 200
 
@@ -96,7 +102,8 @@ for col in ["Life_Expectancy", "Mean_Years_Schooling", "GNI_Per_Capita"]:
     missing_idx = np.random.choice(df.index, size=5, replace=False)
     df.loc[missing_idx, col] = np.nan
 
-df.to_csv("hdi_dataset.csv", index=False)
-print("Dataset saved -> hdi_dataset.csv")
+output_path = DATA_DIR / "hdi_dataset.csv"
+df.to_csv(output_path, index=False)
+print(f"Dataset saved -> {output_path}")
 print(df.head())
 print(df.isnull().sum())

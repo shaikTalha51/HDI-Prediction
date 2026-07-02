@@ -10,22 +10,26 @@ Routes:
 """
 
 import pickle
+from pathlib import Path
 
 import numpy as np
 from flask import Flask, render_template, request
 
-app = Flask(__name__)
+BASE_DIR = Path(__file__).resolve().parent
+MODELS_DIR = BASE_DIR / "models"
+
+app = Flask(__name__, template_folder=str(BASE_DIR / "templates"), static_folder=str(BASE_DIR / "static"))
 
 # ---------------------------------------------------------------------
 # Load trained artifacts once at startup
 # ---------------------------------------------------------------------
-with open("hdi_model.pkl", "rb") as f:
+with open(MODELS_DIR / "hdi_model.pkl", "rb") as f:
     model = pickle.load(f)
 
-with open("scaler.pkl", "rb") as f:
+with open(MODELS_DIR / "scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 
-with open("metrics.pkl", "rb") as f:
+with open(MODELS_DIR / "metrics.pkl", "rb") as f:
     metrics = pickle.load(f)
 
 FEATURES = [
@@ -85,7 +89,6 @@ def predict():
         values = [float(request.form[f]) for f in FEATURES]
     except (KeyError, ValueError):
         return render_template(
-            
             "predict.html",
             error="Please fill in all fields with valid numbers.",
         )

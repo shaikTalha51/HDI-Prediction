@@ -9,13 +9,14 @@ Epic 6: Fitting the Model
 Epic 7: Saving the Model
 
 Run this once to (re)train the HDI prediction model. It produces:
-    - hdi_model.pkl   (trained LinearRegression model)
-    - scaler.pkl      (StandardScaler fit on the training features)
-    - static/eda_*.png (exploratory data-analysis charts used by the app)
+    - models/hdi_model.pkl   (trained LinearRegression model)
+    - models/scaler.pkl      (StandardScaler fit on the training features)
+    - static/eda_*.png       (exploratory data-analysis charts used by the app)
 """
 
 import pickle
 import warnings
+from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")  # headless backend, no display needed
@@ -31,10 +32,19 @@ from sklearn.preprocessing import StandardScaler
 warnings.filterwarnings("ignore")
 sns.set_theme(style="whitegrid")
 
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+MODELS_DIR = BASE_DIR / "models"
+STATIC_DIR = BASE_DIR / "static"
+
+DATA_DIR.mkdir(exist_ok=True)
+MODELS_DIR.mkdir(exist_ok=True)
+STATIC_DIR.mkdir(exist_ok=True)
+
 # ---------------------------------------------------------------------
 # Epic 3: Dataset Download and Understanding
 # ---------------------------------------------------------------------
-df = pd.read_csv("hdi_dataset.csv")
+df = pd.read_csv(DATA_DIR / "hdi_dataset.csv")
 print("Shape:", df.shape)
 print(df.describe())
 
@@ -79,14 +89,14 @@ plt.figure(figsize=(7, 6))
 sns.heatmap(df[FEATURES + [TARGET]].corr(), annot=True, cmap="YlGnBu", fmt=".2f")
 plt.title("Correlation Heatmap")
 plt.tight_layout()
-plt.savefig("static/eda_heatmap.png", dpi=120)
+plt.savefig(STATIC_DIR / "eda_heatmap.png", dpi=120)
 plt.close()
 
 plt.figure(figsize=(7, 5))
 sns.scatterplot(data=df, x="GNI_Per_Capita", y=TARGET, hue="HDI_Tier", palette="viridis")
 plt.title("GNI per Capita vs HDI Score")
 plt.tight_layout()
-plt.savefig("static/eda_scatter.png", dpi=120)
+plt.savefig(STATIC_DIR / "eda_scatter.png", dpi=120)
 plt.close()
 
 plt.figure(figsize=(7, 5))
@@ -94,14 +104,14 @@ sns.stripplot(data=df, x="HDI_Tier", y="Life_Expectancy",
               order=["Low", "Medium", "High", "Very High"], palette="magma")
 plt.title("Life Expectancy by HDI Tier")
 plt.tight_layout()
-plt.savefig("static/eda_strip.png", dpi=120)
+plt.savefig(STATIC_DIR / "eda_strip.png", dpi=120)
 plt.close()
 
 plt.figure(figsize=(7, 5))
 sns.histplot(df[TARGET], kde=True, color="teal")
 plt.title("Distribution of HDI Scores")
 plt.tight_layout()
-plt.savefig("static/eda_dist.png", dpi=120)
+plt.savefig(STATIC_DIR / "eda_dist.png", dpi=120)
 plt.close()
 
 # ---------------------------------------------------------------------
@@ -137,14 +147,14 @@ print(f"  Intercept : {model.intercept_:.4f}")
 # ---------------------------------------------------------------------
 # Epic 7: Saving the Model
 # ---------------------------------------------------------------------
-with open("hdi_model.pkl", "wb") as f:
+with open(MODELS_DIR / "hdi_model.pkl", "wb") as f:
     pickle.dump(model, f)
 
-with open("scaler.pkl", "wb") as f:
+with open(MODELS_DIR / "scaler.pkl", "wb") as f:
     pickle.dump(scaler, f)
 
 metrics = {"r2": round(r2, 4), "mae": round(mae, 4), "rmse": round(rmse, 4)}
-with open("metrics.pkl", "wb") as f:
+with open(MODELS_DIR / "metrics.pkl", "wb") as f:
     pickle.dump(metrics, f)
 
-print("\nSaved hdi_model.pkl, scaler.pkl, metrics.pkl and EDA charts in static/")
+print(f"\nSaved model artifacts in {MODELS_DIR} and charts in {STATIC_DIR}")
