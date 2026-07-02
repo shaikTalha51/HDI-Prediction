@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Prediction Result{% endblock %}
+{% block content %}
+
+<section class="result-section">
+  <p class="eyebrow">Prediction Result</p>
+  <div class="result-card" style="--c:{{ tier_color }}">
+    <div class="result-score">{{ score }}</div>
+    <div class="result-tier">{{ tier }} Human Development</div>
+    <p class="result-blurb">{{ tier_blurb }}</p>
+  </div>
+
+  <h3>Indicators used</h3>
+  <table class="input-table">
+    <tr><td>Life Expectancy</td><td>{{ inputs.Life_Expectancy }} years</td></tr>
+    <tr><td>Mean Years of Schooling</td><td>{{ inputs.Mean_Years_Schooling }} years</td></tr>
+    <tr><td>Expected Years of Schooling</td><td>{{ inputs.Expected_Years_Schooling }} years</td></tr>
+    <tr><td>GNI per Capita</td><td>${{ "{:,.0f}".format(inputs.GNI_Per_Capita) }}</td></tr>
+  </table>
+
+  <a class="cta secondary" href="/predict">Try another country &rarr;</a>
+</section>
+
+{% endblock %}

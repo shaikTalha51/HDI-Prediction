@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Data Insights{% endblock %}
+{% block content %}
+
+<section class="insights-section">
+  <h1>Exploratory Data Analysis</h1>
+  <p class="form-sub">Charts generated during model training (train_model.py), saved to /static and rendered here.</p>
+
+  <div class="chart-grid">
+    <figure>
+      <img src="{{ url_for('static', filename='eda_heatmap.png') }}" alt="Correlation heatmap of HDI features">
+      <figcaption>Correlation between indicators and HDI score</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', filename='eda_scatter.png') }}" alt="GNI per capita vs HDI score scatter plot">
+      <figcaption>GNI per capita vs HDI score, colored by tier</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', filename='eda_strip.png') }}" alt="Life expectancy by HDI tier strip plot">
+      <figcaption>Life expectancy distribution by HDI tier</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', filename='eda_dist.png') }}" alt="Distribution of HDI scores histogram">
+      <figcaption>Distribution of HDI scores in the training set</figcaption>
+    </figure>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric"><span>{{ metrics.r2 }}</span>R&sup2; score</div>
+    <div class="metric"><span>{{ metrics.mae }}</span>Mean Absolute Error</div>
+    <div class="metric"><span>{{ metrics.rmse }}</span>RMSE</div>
+  </div>
+</section>
+
+{% endblock %}

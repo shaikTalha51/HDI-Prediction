@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Predict HDI{% endblock %}
+{% block content %}
+
+<section class="form-section">
+  <h1>Enter a country's indicators</h1>
+  <p class="form-sub">Use real figures from a country you know, or experiment with hypothetical values to see how each dimension moves the score.</p>
+
+  {% if error %}
+  <div class="alert">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" action="/predict" class="hdi-form">
+    <div class="field">
+      <label for="Life_Expectancy">Life Expectancy <span>(years)</span></label>
+      <input type="number" step="0.1" min="20" max="90" name="Life_Expectancy" id="Life_Expectancy" placeholder="e.g. 72.5" required>
+    </div>
+
+    <div class="field">
+      <label for="Mean_Years_Schooling">Mean Years of Schooling <span>(years)</span></label>
+      <input type="number" step="0.1" min="0" max="20" name="Mean_Years_Schooling" id="Mean_Years_Schooling" placeholder="e.g. 8.2" required>
+    </div>
+
+    <div class="field">
+      <label for="Expected_Years_Schooling">Expected Years of Schooling <span>(years)</span></label>
+      <input type="number" step="0.1" min="0" max="22" name="Expected_Years_Schooling" id="Expected_Years_Schooling" placeholder="e.g. 13.0" required>
+    </div>
+
+    <div class="field">
+      <label for="GNI_Per_Capita">GNI per Capita <span>(PPP $)</span></label>
+      <input type="number" step="1" min="100" max="150000" name="GNI_Per_Capita" id="GNI_Per_Capita" placeholder="e.g. 15000" required>
+    </div>
+
+    <button type="submit" class="cta">Predict HDI &rarr;</button>
+  </form>
+</section>
+
+{% endblock %}

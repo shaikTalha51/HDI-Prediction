@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}HDI Predictor — Home{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Health &middot; Education &middot; Income</p>
+    <h1>One number, three lives' worth of data.</h1>
+    <p class="hero-sub">
+      The Human Development Index distills how long people live, how much they learn,
+      and how well they can afford to live, into a single comparable score from 0 to 1.
+      This tool predicts that score for any country profile using a regression model
+      trained on life expectancy, schooling, and income data.
+    </p>
+    <a class="cta" href="/predict">Run a prediction &rarr;</a>
+  </div>
+
+  <div class="hero-gauge" aria-hidden="true">
+    <svg viewBox="0 0 320 200" class="gauge-svg">
+      <path d="M30 170 A130 130 0 0 1 290 170" fill="none" stroke="#2a3146" stroke-width="22" stroke-linecap="round"/>
+      <path d="M30 170 A130 130 0 0 1 290 170" fill="none" stroke="url(#gaugeGrad)" stroke-width="22" stroke-linecap="round" stroke-dasharray="408" stroke-dashoffset="60"/>
+      <defs>
+        <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#d4533d"/>
+          <stop offset="35%" stop-color="#e0a82e"/>
+          <stop offset="68%" stop-color="#3d8bd4"/>
+          <stop offset="100%" stop-color="#1f9d6b"/>
+        </linearGradient>
+      </defs>
+      <text x="160" y="150" text-anchor="middle" class="gauge-number">0.85</text>
+      <text x="160" y="178" text-anchor="middle" class="gauge-label">Very High</text>
+    </svg>
+  </div>
+</section>
+
+<section class="tiers">
+  <div class="tier-card" style="--c:#d4533d">
+    <span class="tier-range">0.00 – 0.549</span>
+    <h3>Low</h3>
+    <p>Limited life expectancy, schooling, and income; priority for intervention.</p>
+  </div>
+  <div class="tier-card" style="--c:#e0a82e">
+    <span class="tier-range">0.550 – 0.699</span>
+    <h3>Medium</h3>
+    <p>Developing nations with moderate outcomes across all three dimensions.</p>
+  </div>
+  <div class="tier-card" style="--c:#3d8bd4">
+    <span class="tier-range">0.700 – 0.799</span>
+    <h3>High</h3>
+    <p>Strong, well-rounded performance approaching the most developed tier.</p>
+  </div>
+  <div class="tier-card" style="--c:#1f9d6b">
+    <span class="tier-range">0.800 – 1.000</span>
+    <h3>Very High</h3>
+    <p>Long lifespans, strong education, and high income define this group.</p>
+  </div>
+</section>
+
+<section class="model-card">
+  <h2>How the prediction works</h2>
+  <div class="model-grid">
+    <div>
+      <h4>1. Inputs</h4>
+      <p>Life expectancy, mean &amp; expected years of schooling, GNI per capita (PPP $).</p>
+    </div>
+    <div>
+      <h4>2. Model</h4>
+      <p>A Linear Regression model trained on a standardized feature set.</p>
+    </div>
+    <div>
+      <h4>3. Output</h4>
+      <p>A predicted HDI score (0&ndash;1) plus its Low / Medium / High / Very High tier.</p>
+    </div>
+  </div>
+  <div class="metric-row">
+    <div class="metric"><span>{{ metrics.r2 }}</span>R&sup2; score</div>
+    <div class="metric"><span>{{ metrics.mae }}</span>Mean Absolute Error</div>
+    <div class="metric"><span>{{ metrics.rmse }}</span>RMSE</div>
+  </div>
+</section>
+
+{% endblock %}
