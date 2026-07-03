@@ -13,6 +13,7 @@ import pickle
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 from flask import Flask, render_template, request
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -93,7 +94,7 @@ def predict():
             error="Please fill in all fields with valid numbers.",
         )
 
-    X = np.array(values).reshape(1, -1)
+    X = pd.DataFrame([values], columns=FEATURES)
     X_scaled = scaler.transform(X)
     pred = float(model.predict(X_scaled)[0])
     pred = max(0.0, min(1.0, pred))
