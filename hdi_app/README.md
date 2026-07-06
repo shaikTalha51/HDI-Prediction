@@ -31,3 +31,47 @@ Replace generate_dataset.py's output with a real HDI CSV (e.g. from Kaggle)
 that has these columns, then re-run train_model.py:
   Country, Life_Expectancy, Mean_Years_Schooling,
   Expected_Years_Schooling, GNI_Per_Capita, HDI_Score
+
+
+
+## 📂 Project Structure
+
+```text
+hdi_app/
+│
+├── app.py                         # Main Flask application
+├── train_model.py                 # Train the Machine Learning model
+├── generate_dataset.py            # Generate synthetic HDI dataset
+├── generate_docs.py               # Automatically generate project documents
+│
+├── data/
+│   └── hdi_dataset.csv            # Dataset used for training
+│
+├── models/
+│   ├── hdi_model.pkl              # Trained ML model
+│   ├── scaler.pkl                 # Feature scaler
+│   └── metrics.pkl                # Model evaluation metrics
+│
+├── project-documentation/
+│   ├── 1. Brainstorming & Ideation/
+│   │   └── ideation_report.pdf
+│   ├── 2. Requirement Analysis/
+│   │   └── requirements_specification.pdf
+│   ├── 3. Project Design Phase/
+│   │   └── design_document.pdf
+│   ├── 4. Project Planning Phase/
+│   │   └── planning_sheet.pdf
+│   ├── 5. Project Development Phase/
+│   │   └── development_phase_report.pdf
+│   ├── 6. Project Testing/
+│   │   └── test_report.pdf
+│   ├── 7. Project Documentation/
+│   │   └── user_manual.pdf
+│   └── 8. Project Demonstration/
+│       └── demo_screenshots.pdf
+│
+├── static/
+│   └── eda_strip.png              # Data visualization image
+│
+└── README.md
+```
